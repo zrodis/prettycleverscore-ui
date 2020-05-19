@@ -1,63 +1,84 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { Box, BonusBox } from './Box'
+import { getRowMatches, getColumnMatches } from './RowChekerHelper'
 
-interface BoxProps {
-    onClick(): void
-    checked: boolean
-    display?: number
+interface YellowScoreProps {
+    onClick(score: number[]): void
+}
+type CheckedState = boolean[][]
+
+const scoreConfig: number[][] = [
+    [3, 6, 5, 0],
+    [2, 1, 0, 5],
+    [1, 0, 2, 4],
+    [0, 3, 4, 6],
+]
+const useScore = ({ onChange, dependency }) => {
+    useEffect(() => {
+        const scoreMap = {
+            0: 10,
+            1: 14,
+            2: 16,
+            3: 20,
+        }
+
+        onChange(dependency.map((val) => scoreMap[val]))
+    }, [dependency])
 }
 
-const Box = (props: BoxProps) => (
-    <div
-        onClick={props.onClick}
-        data-testid={'box'}
-        style={{
-            display: 'inline-block',
-            width: '35px',
-            height: '35px',
-            margin: '4px',
-            textAlign: 'center',
-            fontSize: '1.8em',
-            border: 'solid 2px grey',
-            borderRadius: 5,
-            cursor: 'pointer',
-        }}
-    >
-        <div style={{ width: '100%', height: '100%' }}>
-            {props.checked ? (
-                <div
-                    data-testid='selected'
-                    style={{ width: '100%', height: '100%', backgroundColor: '#333' }}
-                >{`${props.display || ''}`}</div>
-            ) : (
-                <div data-testid='deselected' style={{ width: '100%', height: '100%' }}>{`${
-                    props.display || ''
-                }`}</div>
-            )}
-        </div>
-    </div>
-)
+export const YellowScore: React.SFC<YellowScoreProps> = ({ onClick }: YellowScoreProps) => {
+    const [checkedState, setChecked] = useState<CheckedState>([
+        [false, false, false, false],
+        [false, false, false, false],
+        [false, false, false, false],
+        [false, false, false, false],
+    ])
+    const [bingoState, setBingo] = useState({ rows: [], columns: [] })
 
-export const YellowScore = (props) => {
-    const [checked, onChecked] = useState(false)
+    useScore({
+        onChange: onClick,
+        dependency: bingoState.columns,
+    })
 
-    const handleClick = () => {
-        onChecked(!checked)
-        props.onClick()
+    type Target = { rowIndex: number; columnIndex: number }
+
+    const handleClick = ({ rowIndex, columnIndex }: Target) => {
+        const newChecked = [...checkedState]
+        newChecked[rowIndex][columnIndex] = !newChecked[rowIndex][columnIndex]
+        setChecked(newChecked)
+
+        setBingo({
+            rows: getRowMatches(newChecked),
+            columns: getColumnMatches(newChecked),
+        })
     }
+
+    const rows = Object.entries(checkedState)
 
     return (
         <div data-testid='YellowScore'>
-            <div>
-                <Box onClick={handleClick} checked={checked} display={3} />
-                <Box onClick={handleClick} checked={checked} display={3} />
-                <Box onClick={handleClick} checked={checked} display={3} />
-                <Box onClick={handleClick} checked={checked} display={3} />
+            <div data-testid='score-grid'>
+                {rows.map(([rowKey, row], rowIndex) => {
+                    return (
+                        <div key={rowKey}>
+                            {row.map((column, columnIndex) => (
+                                <Box
+                                    key={`${rowIndex} ${columnIndex}`}
+                                    onClick={() => handleClick({ rowIndex, columnIndex })}
+                                    checked={column}
+                                    display={scoreConfig[rowIndex][columnIndex]}
+                                />
+                            ))}
+                            <BonusBox checked={bingoState.rows.includes(rowIndex)} display={'?'} />
+                        </div>
+                    )
+                })}
             </div>
-            <div>
-                <Box onClick={handleClick} checked={checked} />
-                <Box onClick={handleClick} checked={checked} />
-                <Box onClick={handleClick} checked={checked} />
-                <Box onClick={handleClick} checked={checked} />
+            <div style={{ marginRight: '40px' }}>
+                <BonusBox checked={bingoState.columns.includes(0)} display={'10'} />
+                <BonusBox checked={bingoState.columns.includes(1)} display={'14'} />
+                <BonusBox checked={bingoState.columns.includes(2)} display={'16'} />
+                <BonusBox checked={bingoState.columns.includes(3)} display={'20'} />
             </div>
         </div>
     )
