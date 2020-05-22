@@ -2,5 +2,29 @@
     text-align: center;
 }
 
+.scorebox {
+    grid-area: scorebox;
+}
+.scoreright {
+    grid-area: scoreright;
+}
+.scorebottom {
+    grid-area: scorebottom;
+}
+.corner {
+    grid-area: corner;
+}
+
+.score-container {
+    display: grid;
+    grid-template-areas:
+        'scorebox scoreright'
+        'scorebottom corner';
+    grid-gap: 0px;
+    background-color: #2196f3;
+    padding: 0px;
+    width: 275px;
+}
+
 @media (prefers-reduced-motion: no-preference) {
 }

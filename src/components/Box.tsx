@@ -5,13 +5,14 @@ export interface BoxProps {
     checked: boolean
     display?: React.ReactNode
     style?: any
+    vertical?: boolean
 }
 export const BonusBox = (props: Omit<BoxProps, 'onClick'>) => (
     <Box
         onClick={null}
-        style={{ cursor: 'default', borderRadius: '20px' }}
         display={'?'}
         {...props}
+        style={{ cursor: 'default', borderRadius: '20px', ...props.style }}
     />
 )
 
@@ -21,7 +22,7 @@ export const Box = (props: BoxProps) => {
             onClick={props.onClick}
             data-testid={'box'}
             style={{
-                display: 'inline-block',
+                display: props.vertical ? 'block' : 'inline-block',
                 width: '35px',
                 height: '35px',
                 margin: '4px',

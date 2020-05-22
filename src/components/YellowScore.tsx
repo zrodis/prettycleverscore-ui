@@ -56,8 +56,8 @@ export const YellowScore: React.SFC<YellowScoreProps> = ({ onClick }: YellowScor
     const rows = Object.entries(checkedState)
 
     return (
-        <div data-testid='YellowScore'>
-            <div data-testid='score-grid'>
+        <div data-testid='YellowScore' className='score-container'>
+            <div className='scorebox'>
                 {rows.map(([rowKey, row], rowIndex) => {
                     return (
                         <div key={rowKey}>
@@ -69,12 +69,37 @@ export const YellowScore: React.SFC<YellowScoreProps> = ({ onClick }: YellowScor
                                     display={scoreConfig[rowIndex][columnIndex]}
                                 />
                             ))}
-                            <BonusBox checked={bingoState.rows.includes(rowIndex)} display={'?'} />
                         </div>
                     )
                 })}
             </div>
-            <div style={{ marginRight: '40px' }}>
+            <div className='scoreright'>
+                <BonusBox
+                    checked={bingoState.rows.includes(0)}
+                    display={'?'}
+                    vertical
+                    style={{ marginBottom: '11px' }}
+                />
+                <BonusBox
+                    checked={bingoState.rows.includes(1)}
+                    display={'?'}
+                    vertical
+                    style={{ marginBottom: '11px' }}
+                />
+                <BonusBox
+                    checked={bingoState.rows.includes(2)}
+                    display={'?'}
+                    vertical
+                    style={{ marginBottom: '11px' }}
+                />
+                <BonusBox
+                    checked={bingoState.rows.includes(3)}
+                    display={'?'}
+                    vertical
+                    style={{ marginBottom: '11px' }}
+                />
+            </div>
+            <div className='scorebottom'>
                 <BonusBox checked={bingoState.columns.includes(0)} display={'10'} />
                 <BonusBox checked={bingoState.columns.includes(1)} display={'14'} />
                 <BonusBox checked={bingoState.columns.includes(2)} display={'16'} />
