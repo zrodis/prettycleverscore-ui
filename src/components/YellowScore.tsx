@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Box, BonusBox } from './Box'
 import { getRowMatches, getColumnMatches } from './RowChekerHelper'
+import { useScore } from '../hooks/useScore'
 
 interface YellowScoreProps {
     onClick(score: number[]): void
 }
-type CheckedState = boolean[][]
 
 const scoreConfig: number[][] = [
     [3, 6, 5, 0],
@@ -13,44 +13,36 @@ const scoreConfig: number[][] = [
     [1, 0, 2, 4],
     [0, 3, 4, 6],
 ]
-const useScore = ({ onChange, dependency }) => {
-    useEffect(() => {
-        const scoreMap = {
-            0: 10,
-            1: 14,
-            2: 16,
-            3: 20,
-        }
-
-        onChange(dependency.map((val) => scoreMap[val]))
-    }, [dependency])
-}
 
 export const YellowScore: React.SFC<YellowScoreProps> = ({ onClick }: YellowScoreProps) => {
-    const [checkedState, setChecked] = useState<CheckedState>([
-        [false, false, false, false],
-        [false, false, false, false],
-        [false, false, false, false],
-        [false, false, false, false],
-    ])
-    const [bingoState, setBingo] = useState({ rows: [], columns: [] })
+    // const [checkedState, setChecked] = useState<boolean[][]>([
+    //     [false, false, false, false],
+    //     [false, false, false, false],
+    //     [false, false, false, false],
+    //     [false, false, false, false],
+    // ])
+    // const [bingoState, setBingo] = useState({ rows: [], columns: [] })
 
-    useScore({
-        onChange: onClick,
-        dependency: bingoState.columns,
-    })
+    // useScore({
+    //     onChange: onClick,
+    //     dependency: bingoState.columns,
+    // })
+
+    const { checkedState, bingoState, setScore } = useScore({ onChange: onClick })
 
     type Target = { rowIndex: number; columnIndex: number }
 
-    const handleClick = ({ rowIndex, columnIndex }: Target) => {
-        const newChecked = [...checkedState]
-        newChecked[rowIndex][columnIndex] = !newChecked[rowIndex][columnIndex]
-        setChecked(newChecked)
+    const handleClick = async ({ rowIndex, columnIndex }: Target) => {
+        // const newChecked = [...checkedState]
+        // newChecked[rowIndex][columnIndex] = !newChecked[rowIndex][columnIndex]
+        // setChecked(newChecked)
 
-        setBingo({
-            rows: getRowMatches(newChecked),
-            columns: getColumnMatches(newChecked),
-        })
+        // setBingo({
+        //     rows: getRowMatches(newChecked),
+        //     columns: getColumnMatches(newChecked),
+        // })
+
+        setScore({ rowIndex, columnIndex })
     }
 
     const rows = Object.entries(checkedState)
