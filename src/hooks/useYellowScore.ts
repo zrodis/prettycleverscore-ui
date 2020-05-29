@@ -1,6 +1,11 @@
 import { useEffect } from 'react'
 
-export const useYellowScore = ({ onChange, columns }) => {
+interface UseYellowScore {
+    onChange(score: number[]): void
+    columns: number[]
+}
+
+export const useYellowScore = ({ onChange, columns }: UseYellowScore) => {
     useEffect(() => {
         const columnToScore = { 0: 10, 1: 14, 2: 16, 3: 20 }
 

@@ -1,10 +1,18 @@
 import { useState } from 'react'
 import { getRowMatches, getColumnMatches } from '../components/RowChekerHelper'
 
-export const useYellowSelection = (inital) => {
+export interface BingoState {
+    rows: number[]
+    columns: number[]
+}
+
+export const useYellowSelection = (inital: boolean[][]) => {
     const [checkedState, setChecked] = useState<boolean[][]>(inital)
 
-    const [bingoState, setBingo] = useState({ rows: [], columns: [] })
+    const [bingoState, setBingo] = useState<BingoState>({
+        rows: [],
+        columns: [],
+    })
 
     function setSelection({ rowIndex, columnIndex }) {
         checkedState[rowIndex][columnIndex] = !checkedState[rowIndex][columnIndex]
