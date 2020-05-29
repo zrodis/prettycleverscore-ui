@@ -1,17 +1,12 @@
 import { useState } from 'react'
 import { getRowMatches, getColumnMatches } from '../components/RowChekerHelper'
 
-export const useScore = () => {
-    const [checkedState, setChecked] = useState<boolean[][]>([
-        [true, false, false, false],
-        [true, false, false, false],
-        [true, false, false, false],
-        [false, false, false, false],
-    ])
+export const useYellowSelection = (inital) => {
+    const [checkedState, setChecked] = useState<boolean[][]>(inital)
 
     const [bingoState, setBingo] = useState({ rows: [], columns: [] })
 
-    function setScore({ rowIndex, columnIndex }) {
+    function setSelection({ rowIndex, columnIndex }) {
         checkedState[rowIndex][columnIndex] = !checkedState[rowIndex][columnIndex]
         setChecked(checkedState)
 
@@ -21,5 +16,5 @@ export const useScore = () => {
         })
     }
 
-    return { checkedState, bingoState, setScore }
+    return { checkedState, bingoState, setSelection }
 }

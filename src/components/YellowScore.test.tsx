@@ -4,14 +4,14 @@ import { YellowScore } from './YellowScore'
 
 describe('YellowScore', () => {
     it('should render Boxes', () => {
-        const { getAllByTestId } = render(<YellowScore onClick={() => {}} />)
+        const { getAllByTestId } = render(<YellowScore onChange={() => {}} />)
 
         expect(getAllByTestId('box')).toHaveLength(24)
     })
 
     it('clicking a Boxes changes the state to selected', async () => {
         const handleClick = jest.fn()
-        const { getAllByTestId } = render(<YellowScore onClick={handleClick} />)
+        const { getAllByTestId } = render(<YellowScore onChange={handleClick} />)
 
         const box = getAllByTestId('box')[0]
 

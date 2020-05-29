@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Box, BonusBox } from './Box'
-import { useScore } from '../hooks/useScore'
+import { useYellowSelection } from '../hooks/useYellowSelection'
+import { useYellowScore } from '../hooks/useYellowScore'
 
 interface YellowScoreProps {
     onChange(scores: number[]): void
 }
-
-type Target = { rowIndex: number; columnIndex: number }
 
 const scoreConfig: number[][] = [
     [3, 6, 5, 0],
@@ -16,16 +15,17 @@ const scoreConfig: number[][] = [
 ]
 
 export const YellowScore: React.SFC<YellowScoreProps> = (props: YellowScoreProps) => {
-    const { checkedState, bingoState, setScore } = useScore()
+    const { checkedState, bingoState, setSelection } = useYellowSelection([
+        [true, false, false, false],
+        [true, false, false, false],
+        [true, false, false, false],
+        [false, false, false, false],
+    ])
 
-    useEffect(() => {
-        const scoreMap = { 0: 10, 1: 14, 2: 16, 3: 20 }
-
-        props.onChange(bingoState.columns.map((val) => scoreMap[val]))
-    })
+    useYellowScore({ onChange: props.onChange, columns: bingoState.columns })
 
     const handleClick = (rowIndex: number, columnIndex: number) => {
-        setScore({ rowIndex, columnIndex })
+        setSelection({ rowIndex, columnIndex })
     }
 
     const rows = Object.entries(checkedState)
