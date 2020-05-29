@@ -24,7 +24,7 @@ export const getColumnMatches = (rows: boolean[][]): number[] => {
 }
 
 export const getColumnsAsRows = (rows: any[][]): any[][] => {
-    const columnsAll = [[], [], [], []]
+    const columnsAll = Array.from(rows, () => [])
 
     rows.forEach((row, rowIndex) => {
         row.forEach((column, columnIndex) => {

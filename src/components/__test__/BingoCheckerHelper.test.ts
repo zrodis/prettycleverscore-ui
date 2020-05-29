@@ -1,4 +1,4 @@
-import { getRowMatches, getColumnsAsRows, getColumnMatches } from '../RowChekerHelper'
+import { getRowMatches, getColumnsAsRows, getColumnMatches } from '../BingoCheckerHelper.test'
 
 describe('getRowMatches', () => {
     it('should return false if empty', () => {
@@ -19,10 +19,10 @@ describe('getRowMatches', () => {
 
     it('returns the row indexes where all values are true', () => {
         const rows = [
+            [true],
+            [false, false, true, false],
             [true, true, true, true],
-            [false, false, false, false],
-            [true, true, true, true],
-            [true, true, true, true],
+            [true, true, true, true, true, true],
         ]
         expect(getRowMatches(rows)).toEqual([0, 2, 3])
     })
@@ -32,14 +32,14 @@ describe('getColumnsAsRows', () => {
     it('put the first index of each array in an array', () => {
         expect(
             getColumnsAsRows([
-                [true, 0, 0, 0],
+                [true, true, 0, 0],
                 [true, 0, 0, 0],
                 [true, 0, 0, 0],
                 [true, 0, 0, 0],
             ])
         ).toEqual([
             [true, true, true, true],
-            [0, 0, 0, 0],
+            [true, 0, 0, 0],
             [0, 0, 0, 0],
             [0, 0, 0, 0],
         ])

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { getRowMatches, getColumnMatches } from '../components/RowChekerHelper'
+import { getRowMatches, getColumnMatches } from '../components/BingoCheckerHelper.test'
 
 export interface BingoState {
     rows: number[]
