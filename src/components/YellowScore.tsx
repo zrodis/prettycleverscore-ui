@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { Box, BonusBox } from './Box'
-import { getRowMatches, getColumnMatches } from './RowChekerHelper'
 import { useScore } from '../hooks/useScore'
 
 interface YellowScoreProps {
-    onClick(score: number[]): void
+    onChange(scores: number[]): void
 }
+
+type Target = { rowIndex: number; columnIndex: number }
 
 const scoreConfig: number[][] = [
     [3, 6, 5, 0],
@@ -14,34 +15,16 @@ const scoreConfig: number[][] = [
     [0, 3, 4, 6],
 ]
 
-export const YellowScore: React.SFC<YellowScoreProps> = ({ onClick }: YellowScoreProps) => {
-    // const [checkedState, setChecked] = useState<boolean[][]>([
-    //     [false, false, false, false],
-    //     [false, false, false, false],
-    //     [false, false, false, false],
-    //     [false, false, false, false],
-    // ])
-    // const [bingoState, setBingo] = useState({ rows: [], columns: [] })
+export const YellowScore: React.SFC<YellowScoreProps> = (props: YellowScoreProps) => {
+    const { checkedState, bingoState, setScore } = useScore()
 
-    // useScore({
-    //     onChange: onClick,
-    //     dependency: bingoState.columns,
-    // })
+    useEffect(() => {
+        const scoreMap = { 0: 10, 1: 14, 2: 16, 3: 20 }
 
-    const { checkedState, bingoState, setScore } = useScore({ onChange: onClick })
+        props.onChange(bingoState.columns.map((val) => scoreMap[val]))
+    })
 
-    type Target = { rowIndex: number; columnIndex: number }
-
-    const handleClick = async ({ rowIndex, columnIndex }: Target) => {
-        // const newChecked = [...checkedState]
-        // newChecked[rowIndex][columnIndex] = !newChecked[rowIndex][columnIndex]
-        // setChecked(newChecked)
-
-        // setBingo({
-        //     rows: getRowMatches(newChecked),
-        //     columns: getColumnMatches(newChecked),
-        // })
-
+    const handleClick = (rowIndex: number, columnIndex: number) => {
         setScore({ rowIndex, columnIndex })
     }
 
@@ -56,7 +39,7 @@ export const YellowScore: React.SFC<YellowScoreProps> = ({ onClick }: YellowScor
                             {row.map((column, columnIndex) => (
                                 <Box
                                     key={`${rowIndex} ${columnIndex}`}
-                                    onClick={() => handleClick({ rowIndex, columnIndex })}
+                                    onClick={() => handleClick(rowIndex, columnIndex)}
                                     checked={column}
                                     display={scoreConfig[rowIndex][columnIndex]}
                                 />

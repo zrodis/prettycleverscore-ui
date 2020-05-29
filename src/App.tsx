@@ -8,12 +8,11 @@ function App() {
 
     const handleScoreUpdate = (update: number[]) => {
         setYellowScore(add({ values: update }))
-        console.log('handleScoreUpdate', yellowScore)
     }
 
     return (
         <div className='App'>
-            <YellowScore onClick={handleScoreUpdate} />
+            <YellowScore onChange={handleScoreUpdate} />
             <div>{` Yellow Total: ${yellowScore}`}</div>
         </div>
     )
