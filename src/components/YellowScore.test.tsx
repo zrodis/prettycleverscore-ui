@@ -6,7 +6,7 @@ describe('YellowScore', () => {
     it('should render Boxes', () => {
         const { getAllByTestId } = render(<YellowScore onClick={() => {}} />)
 
-        expect(getAllByTestId('box')).toHaveLength(8)
+        expect(getAllByTestId('box')).toHaveLength(24)
     })
 
     it('clicking a Boxes changes the state to selected', async () => {
@@ -17,6 +17,7 @@ describe('YellowScore', () => {
 
         fireEvent.click(box)
 
+        expect(handleClick).toHaveBeenCalled()
         expect(within(box).getByTestId('selected')).toBeTruthy()
     })
     /*
@@ -25,8 +26,7 @@ describe('YellowScore', () => {
         const handleClick = jest.fn()
         const { getAllByRole } = render(<YellowScore onClick={handleClick} />)
 
-        const box1 = getAllByRole('checkbox')[0]
-        const box2 = getAllByRole('checkbox')[1]
+        const [box1, box2] = getAllByRole('checkbox')
 
         fireEvent.click(box1)
 

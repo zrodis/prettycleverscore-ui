@@ -1,7 +1,3 @@
-export const getColumnMatches = (rows: boolean[][]): number[] => {
-    return getRowMatches(getColumnsAsRows(rows))
-}
-
 export const getRowMatches = (rows: boolean[][]): number[] => {
     let result = []
 
@@ -21,6 +17,10 @@ export const getRowMatches = (rows: boolean[][]): number[] => {
     }
 
     return result
+}
+
+export const getColumnMatches = (rows: boolean[][]): number[] => {
+    return getRowMatches(getColumnsAsRows(rows))
 }
 
 export const getColumnsAsRows = (rows: any[][]): any[][] => {

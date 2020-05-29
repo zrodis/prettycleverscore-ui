@@ -7,6 +7,7 @@ export interface BoxProps {
     style?: any
     vertical?: boolean
 }
+
 export const BonusBox = (props: Omit<BoxProps, 'onClick'>) => (
     <Box
         onClick={null}
