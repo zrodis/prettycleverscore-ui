@@ -1,9 +1,9 @@
 import { renderHook, act } from '@testing-library/react-hooks'
-import { useYellowSelection } from './useYellowSelection'
+import { useGridSelection } from './useGridSelection'
 
 test('when setSelection is called with column and row indexes, checkedState is updated, and bingoState is calculated and updated', async () => {
     const { result } = renderHook(() =>
-        useYellowSelection([
+        useGridSelection([
             [true, false],
             [false, false],
         ])
@@ -18,6 +18,5 @@ test('when setSelection is called with column and row indexes, checkedState is u
         [false, false],
     ])
 
-    console.log('checkedState', result.current.checkedState)
     await expect(result.current.bingoState).toEqual({ columns: [], rows: [0] })
 })

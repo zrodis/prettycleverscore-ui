@@ -1,28 +1,26 @@
 import React from 'react'
 import { Box, BonusBox } from './Box'
 import { useGridSelection } from '../hooks/useGridSelection'
-import { useYellowScore } from '../hooks/useYellowScore'
+import { useBlueScore } from '../hooks/useBlueScore'
 
-interface YellowScoreProps {
-    onChange(scores: number[]): void
+interface BlueScoreProps {
+    onChange(quantity: number): void
 }
 
 const scoreConfig: number[][] = [
-    [3, 6, 5, 0],
-    [2, 1, 0, 5],
-    [1, 0, 2, 4],
-    [0, 3, 4, 6],
+    [null, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12],
 ]
 
-export const YellowScore: React.SFC<YellowScoreProps> = (props: YellowScoreProps) => {
+export const BlueScore = ({ onChange }: BlueScoreProps) => {
     const { checkedState, bingoState, setSelection } = useGridSelection([
-        [false, false, false, false],
         [true, false, false, false],
         [true, false, false, false],
         [true, false, false, false],
     ])
 
-    useYellowScore({ onChange: props.onChange, columns: bingoState.columns })
+    useBlueScore({ onChange, checkedState })
 
     const handleClick = (rowIndex: number, columnIndex: number) => {
         setSelection({ rowIndex, columnIndex })
@@ -30,9 +28,9 @@ export const YellowScore: React.SFC<YellowScoreProps> = (props: YellowScoreProps
 
     return (
         <div
-            data-testid='YellowScore'
+            data-testid='BlueScore'
             className='score-container'
-            style={{ backgroundColor: '#ffe552' }}
+            style={{ backgroundColor: '#9ad3ff' }}
         >
             <div className='scorebox'>
                 {scoreConfig.map((row, rowIndex) => {
@@ -47,6 +45,7 @@ export const YellowScore: React.SFC<YellowScoreProps> = (props: YellowScoreProps
                                         onClick={() => handleClick(rowIndex, columnIndex)}
                                         checked={checked}
                                         display={column}
+                                        renderBlank={column === null}
                                     />
                                 )
                             })}
@@ -73,18 +72,12 @@ export const YellowScore: React.SFC<YellowScoreProps> = (props: YellowScoreProps
                     vertical
                     style={{ marginBottom: '11px' }}
                 />
-                <BonusBox
-                    checked={bingoState.rows.includes(3)}
-                    display={'?'}
-                    vertical
-                    style={{ marginBottom: '11px' }}
-                />
             </div>
             <div className='scorebottom'>
-                <BonusBox checked={bingoState.columns.includes(0)} display={'10'} />
-                <BonusBox checked={bingoState.columns.includes(1)} display={'14'} />
-                <BonusBox checked={bingoState.columns.includes(2)} display={'16'} />
-                <BonusBox checked={bingoState.columns.includes(3)} display={'20'} />
+                <BonusBox checked={bingoState.columns.includes(0)} />
+                <BonusBox checked={bingoState.columns.includes(1)} />
+                <BonusBox checked={bingoState.columns.includes(2)} />
+                <BonusBox checked={bingoState.columns.includes(3)} />
             </div>
         </div>
     )

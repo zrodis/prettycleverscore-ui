@@ -17,6 +17,7 @@ describe('Box', () => {
         const { getByTestId } = render(<Box onClick={jest.fn} checked={true} />)
 
         expect(getByTestId('selected')).toBeTruthy()
+        expect(getByTestId('selected').style.backgroundColor).toBe('rgb(51, 51, 51)')
     })
 
     it('renders deselected when checked is false', () => {

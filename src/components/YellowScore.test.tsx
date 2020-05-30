@@ -1,4 +1,4 @@
-import { render, fireEvent, screen, within } from '@testing-library/react'
+import { render, fireEvent, screen, within, act } from '@testing-library/react'
 import React from 'react'
 import { YellowScore } from './YellowScore'
 
@@ -17,7 +17,7 @@ describe('YellowScore', () => {
 
         fireEvent.click(box)
 
-        expect(handleClick).toHaveBeenCalled()
+        act(() => expect(handleClick).toHaveBeenCalled())
         expect(within(box).getByTestId('selected')).toBeTruthy()
     })
     /*

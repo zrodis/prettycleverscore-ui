@@ -21,7 +21,6 @@
         'scorebox scoreright'
         'scorebottom corner';
     grid-gap: 0px;
-    background-color: #2196f3;
     padding: 0px;
     width: 275px;
 }

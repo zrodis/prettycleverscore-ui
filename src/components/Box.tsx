@@ -6,6 +6,7 @@ export interface BoxProps {
     display?: React.ReactNode
     style?: any
     vertical?: boolean
+    renderBlank?: boolean
 }
 
 export const BonusBox = (props: Omit<BoxProps, 'onClick'>) => (
@@ -18,6 +19,19 @@ export const BonusBox = (props: Omit<BoxProps, 'onClick'>) => (
 )
 
 export const Box = (props: BoxProps) => {
+    if (props.renderBlank) {
+        return (
+            <div
+                style={{
+                    display: props.vertical ? 'block' : 'inline-block',
+                    width: '35px',
+                    height: '35px',
+                    margin: '4px',
+                }}
+            />
+        )
+    }
+
     return (
         <div
             onClick={props.onClick}

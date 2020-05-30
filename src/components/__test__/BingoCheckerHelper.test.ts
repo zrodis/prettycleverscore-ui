@@ -1,4 +1,4 @@
-import { getRowMatches, getColumnsAsRows, getColumnMatches } from '../BingoCheckerHelper.test'
+import { getRowMatches, getColumnsAsRows, getColumnMatches } from '../BingoCheckerHelper'
 
 describe('getRowMatches', () => {
     it('should return false if empty', () => {
@@ -43,6 +43,19 @@ describe('getColumnsAsRows', () => {
             [0, 0, 0, 0],
             [0, 0, 0, 0],
         ])
+    })
+
+    it('still works when its not a square', () => {
+        expect(getColumnsAsRows([[true, 0]])).toEqual([[true], [0]])
+    })
+
+    it('still works when its not a square and its not rectangular', () => {
+        expect(
+            getColumnsAsRows([
+                [true, 0, 0],
+                [true, 0],
+            ])
+        ).toEqual([[true, true], [0, 0], [0]])
     })
 })
 
