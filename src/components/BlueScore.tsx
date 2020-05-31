@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box, BonusBox } from './Box'
 import { useGridSelection } from '../hooks/useGridSelection'
-import { useBlueScore } from '../hooks/useBlueScore'
+import { countBlueSelection } from '../service/score/blue'
 
 interface BlueScoreProps {
     onChange(quantity: number): void
@@ -20,7 +20,9 @@ export const BlueScore = ({ onChange }: BlueScoreProps) => {
         [false, false, false, false],
     ])
 
-    useBlueScore({ onChange, checkedState })
+    useEffect(() => {
+        onChange(countBlueSelection(checkedState))
+    }, [checkedState, onChange])
 
     const handleClick = (rowIndex: number, columnIndex: number) => {
         setSelection({ rowIndex, columnIndex })

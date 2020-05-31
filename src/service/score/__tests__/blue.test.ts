@@ -1,4 +1,4 @@
-import { calculateBlue } from '../scores'
+import { calculateBlue, countBlueSelection } from '../blue'
 
 describe('calculateBlue', () => {
     it('calculates the score for the blue boxes', () => {
@@ -15,4 +15,14 @@ describe('calculateBlue', () => {
         expect(calculateBlue({ quantity: 10 })).toEqual(46)
         expect(calculateBlue({ quantity: 11 })).toEqual(56)
     })
+})
+
+describe('countBlueSelection', () => {
+    const result = countBlueSelection([
+        [true, false, false, false],
+        [true, false, false, false],
+        [true, false, false, false],
+    ])
+
+    expect(result).toBe(2)
 })

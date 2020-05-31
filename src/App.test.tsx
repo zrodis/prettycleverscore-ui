@@ -5,17 +5,18 @@ import Enzyme from 'enzyme'
 import { YellowScore } from './components/YellowScore'
 import * as Scores from './service/score/scores'
 import { BlueScore } from './components/BlueScore'
+import * as Blue from './service/score/blue'
 
 jest.spyOn(Scores, 'add')
-jest.spyOn(Scores, 'calculateBlue')
+jest.spyOn(Blue, 'calculateBlue')
+
+afterEach(() => {
+    jest.resetAllMocks()
+})
 
 test('YellowScore', () => {
     const { getByTestId } = render(<App />)
     expect(getByTestId(/YellowScore/i)).toBeInTheDocument()
-})
-
-afterEach(() => {
-    jest.resetAllMocks()
 })
 
 describe('score component integration (useState in Enzyme shallow)', () => {
@@ -32,7 +33,7 @@ describe('score component integration (useState in Enzyme shallow)', () => {
     })
 
     test('BlueScore onChange: calculateBlue() is called and Blue Total gets updated', () => {
-        ;(Scores.calculateBlue as any).mockReturnValue(7)
+        ;(Blue.calculateBlue as any).mockReturnValue(7)
 
         const shallowRender = Enzyme.shallow(<App />)
 
@@ -40,7 +41,7 @@ describe('score component integration (useState in Enzyme shallow)', () => {
 
         shallowRender.find(BlueScore).props().onChange(4)
 
-        expect(Scores.calculateBlue).toHaveBeenCalled()
+        expect(Blue.calculateBlue).toHaveBeenCalled()
         expect(shallowRender.text()).toContain('Blue Total: 7')
     })
 })

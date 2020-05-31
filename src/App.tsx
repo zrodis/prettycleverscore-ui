@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import './App.css'
 import { YellowScore } from './components/YellowScore'
-import { add, calculateBlue } from './service/score/scores'
+import { add } from './service/score/scores'
 import { BlueScore } from './components/BlueScore'
+import { calculateBlue } from './service/score/blue'
 
 function App() {
     const [yellowScore, setYellowScore] = useState(0)

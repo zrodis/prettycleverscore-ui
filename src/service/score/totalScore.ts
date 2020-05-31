@@ -1,4 +1,5 @@
-import { calculateBlue, calculateGreen, calculateOrange, add } from './scores'
+import { calculateGreen, calculateOrange, add } from './scores'
+import { calculateBlue } from './blue'
 
 export const calulateTotalScore = (scoreData: TotalScore): number => {
     const scoreTotals = [
