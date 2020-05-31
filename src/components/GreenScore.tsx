@@ -1,21 +1,48 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Box } from './Box'
 
 const scoreConfig: number[] = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6]
 
-export const GreenScore = (props: { onChange(): void }) => {
-    const [checkedState, setCheckedState] = useState(() => Array.from(scoreConfig, () => false))
+interface GreenScoreProps {
+    onChange(quantity: number): void
+}
 
-    const handleClick = (rowIndex) => {
-        const c = [...checkedState]
+const useGreenSelection = () => {
+    const [checked, setChecked] = useState(() => Array.from(scoreConfig, () => false))
 
-        if (!checkedState[rowIndex]) {
-            const firstUnchecked = checkedState.findIndex((checked) => !checked)
+    function setCheckedState(rowIndex) {
+        const c = [...checked]
+
+        if (!checked[rowIndex]) {
+            const firstUnchecked = checked.indexOf(false)
 
             c[firstUnchecked] = !c[firstUnchecked]
         }
 
-        setCheckedState(c)
+        if (checked[rowIndex]) {
+            const firstChecked = checked.lastIndexOf(true)
+
+            c[firstChecked] = !c[firstChecked]
+        }
+
+        setChecked(c)
+    }
+
+    return { checkedState: checked, setCheckedState }
+}
+
+export const GreenScore = ({ onChange }: GreenScoreProps) => {
+    const { checkedState, setCheckedState } = useGreenSelection()
+
+    useEffect(() => {
+        const quantity = checkedState.reduce((total, isTrue) => {
+            return isTrue ? total + 1 : total
+        }, 0)
+        onChange(quantity)
+    }, [checkedState, onChange])
+
+    const handleClick = (rowIndex) => {
+        setCheckedState(rowIndex)
     }
 
     return (

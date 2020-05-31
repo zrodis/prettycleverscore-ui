@@ -6,9 +6,11 @@ import { YellowScore } from './components/YellowScore'
 import * as Scores from './service/score/scores'
 import { BlueScore } from './components/BlueScore'
 import * as Blue from './service/score/blue'
+import { GreenScore } from './components/GreenScore'
 
 jest.spyOn(Scores, 'add')
 jest.spyOn(Blue, 'calculateBlue')
+jest.spyOn(Scores, 'calculateGreen')
 
 afterEach(() => {
     jest.resetAllMocks()
@@ -45,5 +47,18 @@ describe('score component integration (useState in Enzyme shallow)', () => {
 
         expect(Blue.calculateBlue).toHaveBeenCalled()
         expect(shallowRender.text()).toContain('Blue Total: 7')
+    })
+
+    test('GreenScore onChange: calculateBlue() is called and Green Total gets updated', () => {
+        ;(Scores.calculateGreen as any).mockReturnValue(7)
+
+        const shallowRender = Enzyme.shallow(<App />)
+
+        expect(shallowRender.text()).toContain('Green Total: 0')
+
+        shallowRender.find(GreenScore).props().onChange(4)
+
+        expect(Scores.calculateGreen).toHaveBeenCalled()
+        expect(shallowRender.text()).toContain('Green Total: 7')
     })
 })

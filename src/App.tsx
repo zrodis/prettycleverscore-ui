@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './App.css'
 import { YellowScore } from './components/YellowScore'
-import { add } from './service/score/scores'
+import { add, calculateGreen } from './service/score/scores'
 import { BlueScore } from './components/BlueScore'
 import { calculateBlue } from './service/score/blue'
 import { GreenScore } from './components/GreenScore'
@@ -9,6 +9,7 @@ import { GreenScore } from './components/GreenScore'
 function App() {
     const [yellowScore, setYellowScore] = useState(0)
     const [blueScore, setBlueScore] = useState(0)
+    const [greenScore, setGreenScore] = useState(0)
 
     const handleYellowScoreUpdate = (values: number[]) => {
         setYellowScore(add({ values }))
@@ -16,7 +17,9 @@ function App() {
     const handleBlueScoreUpdate = (quantity: number) => {
         setBlueScore(calculateBlue({ quantity }))
     }
-    const handleGreenScoreUpdate = () => {}
+    const handleGreenScoreUpdate = (quantity: number) => {
+        setGreenScore(calculateGreen({ quantity }))
+    }
 
     return (
         <div className='App'>
@@ -25,6 +28,7 @@ function App() {
             <GreenScore onChange={handleGreenScoreUpdate} />
             <div>{` Yellow Total: ${yellowScore}`}</div>
             <div>{` Blue Total: ${blueScore}`}</div>
+            <div>{` Green Total: ${greenScore}`}</div>
         </div>
     )
 }

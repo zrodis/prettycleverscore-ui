@@ -17,9 +17,9 @@ const scoreConfig: number[][] = [
 export const YellowScore: React.SFC<YellowScoreProps> = (props: YellowScoreProps) => {
     const { checkedState, bingoState, setSelection } = useGridSelection([
         [false, false, false, false],
-        [true, false, false, false],
-        [true, false, false, false],
-        [true, false, false, false],
+        [false, false, false, false],
+        [false, false, false, false],
+        [false, false, false, false],
     ])
 
     useYellowScore({ onChange: props.onChange, columns: bingoState.columns })
