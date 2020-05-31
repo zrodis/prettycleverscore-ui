@@ -16,8 +16,8 @@ const scoreConfig: number[][] = [
 export const BlueScore = ({ onChange }: BlueScoreProps) => {
     const { checkedState, bingoState, setSelection } = useGridSelection([
         [true, false, false, false],
-        [true, false, false, false],
-        [true, false, false, false],
+        [false, false, false, false],
+        [false, false, false, false],
     ])
 
     useBlueScore({ onChange, checkedState })
