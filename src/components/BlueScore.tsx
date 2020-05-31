@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Box, BonusBox } from './Box'
 import { useGridSelection } from '../hooks/useGridSelection'
 import { countBlueSelection } from '../service/score/blue'
+import { COLOR } from '../constants/colors'
 
 interface BlueScoreProps {
     onChange(quantity: number): void
@@ -32,7 +33,7 @@ export const BlueScore = ({ onChange }: BlueScoreProps) => {
         <div
             data-testid='BlueScore'
             className='score-container'
-            style={{ backgroundColor: '#9ad3ff' }}
+            style={{ backgroundColor: COLOR.blue }}
         >
             <div className='scorebox'>
                 {scoreConfig.map((row, rowIndex) => {

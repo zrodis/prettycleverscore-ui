@@ -34,3 +34,17 @@ export const getColumnsAsRows = (rows: any[][]): any[][] => {
 
     return columnsAll
 }
+
+export const getDiagonalMatch = (rows: boolean[][]): boolean => {
+    let diagonalPoints = 0
+
+    rows.forEach((row, rowIndex) => {
+        row.forEach((columnBool, columnIndex) => {
+            if (columnBool && rowIndex === columnIndex) {
+                diagonalPoints++
+            }
+        })
+    })
+
+    return diagonalPoints === rows.length || false
+}

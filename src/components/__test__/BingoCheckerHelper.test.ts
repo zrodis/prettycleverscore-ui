@@ -1,4 +1,9 @@
-import { getRowMatches, getColumnsAsRows, getColumnMatches } from '../BingoCheckerHelper'
+import {
+    getRowMatches,
+    getColumnsAsRows,
+    getColumnMatches,
+    getDiagonalMatch,
+} from '../BingoCheckerHelper'
 
 describe('getRowMatches', () => {
     it('should return false if empty', () => {
@@ -68,5 +73,26 @@ describe('columnChecker', () => {
             [true, false, false, false],
         ]
         expect(getColumnMatches(rows)).toEqual([0])
+    })
+})
+
+describe('getDiagonalMatch', () => {
+    it('should return false if no diagonal of true', () => {
+        expect(
+            getDiagonalMatch([
+                [true, true, true],
+                [false, false, false],
+                [false, false, true],
+            ])
+        ).toEqual(false)
+    })
+    it('should return true if the top-left to bottom-right diagonal is all true', () => {
+        expect(
+            getDiagonalMatch([
+                [true, false, false],
+                [false, true, false],
+                [false, false, true],
+            ])
+        ).toEqual(true)
     })
 })

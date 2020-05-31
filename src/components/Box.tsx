@@ -14,7 +14,7 @@ export const BonusBox = (props: Omit<BoxProps, 'onClick'>) => (
         onClick={null}
         display={'?'}
         {...props}
-        style={{ cursor: 'default', borderRadius: '20px', ...props.style }}
+        style={{ cursor: 'default', border: 'none', margin: '6px 6px 14px 6px' }}
     />
 )
 
@@ -51,7 +51,7 @@ export const Box = (props: BoxProps) => {
                 ...props.style,
             }}
         >
-            <div style={{ width: '100%', height: '100%' }}>
+            <div style={{ width: '100%', height: '100%', backgroundColor: 'white' }}>
                 {props.checked ? (
                     <div
                         data-testid='selected'

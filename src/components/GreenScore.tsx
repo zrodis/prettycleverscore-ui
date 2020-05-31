@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Box } from './Box'
+import { COLOR } from '../constants/colors'
 
 const scoreConfig: number[] = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6]
 
@@ -46,7 +47,7 @@ export const GreenScore = ({ onChange }: GreenScoreProps) => {
     }
 
     return (
-        <div data-testid='GreenScore' style={{ backgroundColor: '#7de258' }}>
+        <div data-testid='GreenScore' style={{ backgroundColor: COLOR.green }}>
             {scoreConfig.map((value, rowIndex) => {
                 return (
                     <Box
