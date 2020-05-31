@@ -56,11 +56,13 @@ export const Box = (props: BoxProps) => {
                     <div
                         data-testid='selected'
                         style={{ width: '100%', height: '100%', backgroundColor: '#333' }}
-                    >{`${String(props.display) || ''}`}</div>
+                    >
+                        {props.display}
+                    </div>
                 ) : (
-                    <div data-testid='deselected' style={{ width: '100%', height: '100%' }}>{`${
-                        String(props.display) || ''
-                    }`}</div>
+                    <div data-testid='deselected' style={{ width: '100%', height: '100%' }}>
+                        {props.display}
+                    </div>
                 )}
             </div>
         </div>

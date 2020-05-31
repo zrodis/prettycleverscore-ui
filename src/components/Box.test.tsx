@@ -1,4 +1,4 @@
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, within } from '@testing-library/react'
 import React from 'react'
 import { Box } from './Box'
 
@@ -24,5 +24,21 @@ describe('Box', () => {
         const { getByTestId } = render(<Box onClick={jest.fn} checked={false} />)
 
         expect(getByTestId('deselected')).toBeTruthy()
+    })
+
+    it('can render the display prop as a string', () => {
+        const { getByTestId } = render(
+            <Box onClick={jest.fn} checked={false} display={'display text'} />
+        )
+
+        expect(getByTestId('deselected').textContent).toContain('display text')
+    })
+
+    it('can render the display prop as a component', () => {
+        const Mock = () => <div data-testid='Mock'>mock</div>
+
+        const { getByTestId } = render(<Box onClick={jest.fn} checked={false} display={<Mock />} />)
+
+        expect(getByTestId(/Mock/i)).toBeTruthy()
     })
 })
