@@ -14,9 +14,11 @@ afterEach(() => {
     jest.resetAllMocks()
 })
 
-test('YellowScore', () => {
+test('App renders score components', () => {
     const { getByTestId } = render(<App />)
-    expect(getByTestId(/YellowScore/i)).toBeInTheDocument()
+    expect(getByTestId('YellowScore')).toBeInTheDocument()
+    expect(getByTestId(/BlueScore/i)).toBeInTheDocument()
+    expect(getByTestId(/GreenScore/i)).toBeInTheDocument()
 })
 
 describe('score component integration (useState in Enzyme shallow)', () => {
