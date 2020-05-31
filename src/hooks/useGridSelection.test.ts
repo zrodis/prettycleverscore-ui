@@ -18,5 +18,5 @@ test('when setSelection is called with column and row indexes, checkedState is u
         [false, false],
     ])
 
-    await expect(result.current.bingoState).toEqual({ columns: [], rows: [0] })
+    await expect(result.current.bingoState).toEqual({ columns: [], rows: [0], diagonal: false })
 })

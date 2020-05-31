@@ -11,49 +11,27 @@ const bonusMap = [
     null,
     null,
     BONUS.ReRoll,
-    BONUS.Double,
-    BONUS.FreeYellow,
+    BONUS.FreeBlue,
     BONUS.PlusOne,
-    BONUS.Double,
+    BONUS.FreeYellow,
     BONUS.Fox,
-    BONUS.Double,
-    BONUS.Purple6,
-    BONUS.Triple,
+    BONUS.ReRoll,
+    BONUS.FreeGreen,
+    BONUS.Orange6,
+    BONUS.PlusOne,
 ]
 
-interface OrangeScoreProps {
+interface PurpleScoreProps {
     onChange(inputValues: number[]): void
 }
 
-const DieSelect = ({ value, onChange, bonus }) => {
-    const calculateDisplay = (): any => {
-        let calculatedValue
-
-        switch (bonus) {
-            case BONUS.Double:
-                calculatedValue = value * 2
-                break
-            case BONUS.Triple:
-                calculatedValue = value * 3
-                break
-            default:
-                calculatedValue = value
-        }
-
-        if (calculatedValue === 0) {
-            return <span>{''}</span>
-        }
-
-        return <span>{calculatedValue}</span>
-    }
-
+const DieSelect = ({ value, onChange }) => {
     return (
         <Select
             labelId='demo-simple-select-required-label'
             id='demo-simple-select-required'
             value={value}
             onChange={onChange}
-            renderValue={calculateDisplay}
         >
             <MenuItem value={0}>{''}</MenuItem>
             <MenuItem value={1}>{1}</MenuItem>
@@ -66,7 +44,7 @@ const DieSelect = ({ value, onChange, bonus }) => {
     )
 }
 
-export const OrangeScore = ({ onChange }: OrangeScoreProps) => {
+export const PurpleScore = ({ onChange }: PurpleScoreProps) => {
     const [inputState, setInput] = useState(initialScore)
 
     const handleChange = ({ target }: React.ChangeEvent<{ value: number }>, index) => {
@@ -83,9 +61,9 @@ export const OrangeScore = ({ onChange }: OrangeScoreProps) => {
 
     return (
         <div
-            data-testid='OrangeScore'
+            data-testid='Purple'
             style={{
-                backgroundColor: COLOR.orange,
+                backgroundColor: COLOR.purple,
                 display: 'inline-block',
                 padding: '4px',
                 margin: '3px auto',
@@ -94,7 +72,12 @@ export const OrangeScore = ({ onChange }: OrangeScoreProps) => {
         >
             {inputState.map((value, index) => {
                 return (
-                    <div key={index} style={{ display: 'inline-block' }}>
+                    <div
+                        key={index}
+                        style={{
+                            display: 'inline-block',
+                        }}
+                    >
                         <Box
                             onClick={null}
                             checked={false}
@@ -102,7 +85,6 @@ export const OrangeScore = ({ onChange }: OrangeScoreProps) => {
                                 <DieSelect
                                     value={value}
                                     onChange={(event) => handleChange(event, index)}
-                                    bonus={bonusMap[index]}
                                 />
                             }
                         />

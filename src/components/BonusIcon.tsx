@@ -67,6 +67,6 @@ export const BonusIcon = ({ type }) => {
         case Fox:
             return <IconWrapper style={{ color: 'red' }}>F</IconWrapper>
         default:
-            return <div>?</div>
+            return <IconWrapper style={{ opacity: 0 }}>?</IconWrapper>
     }
 }

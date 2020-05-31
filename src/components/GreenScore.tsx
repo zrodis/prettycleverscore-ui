@@ -47,7 +47,16 @@ export const GreenScore = ({ onChange }: GreenScoreProps) => {
     }
 
     return (
-        <div data-testid='GreenScore' style={{ backgroundColor: COLOR.green }}>
+        <div
+            data-testid='GreenScore'
+            style={{
+                backgroundColor: COLOR.green,
+                display: 'inline-block',
+                padding: '4px',
+                margin: '3px auto',
+                borderRadius: '4px',
+            }}
+        >
             {scoreConfig.map((value, rowIndex) => {
                 return (
                     <Box

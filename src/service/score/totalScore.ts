@@ -1,6 +1,15 @@
 import { calculateGreen, calculateOrange, add } from './scores'
 import { calculateBlue } from './blue'
 
+interface TotalScore {
+    yellow: Array<number>
+    blue: number
+    green: number
+    orange: Array<number>
+    purple: Array<number>
+    foxes: number
+}
+
 export const calulateTotalScore = (scoreData: TotalScore): number => {
     const scoreTotals = [
         add({ values: scoreData.yellow }),
@@ -20,13 +29,4 @@ export const calulateTotalScore = (scoreData: TotalScore): number => {
     return add({
         values: [...scoreTotals, foxScore],
     })
-}
-
-interface TotalScore {
-    yellow: Array<number | string>
-    blue: number
-    green: number
-    orange: Array<number | string>
-    purple: Array<number | string>
-    foxes: number
 }

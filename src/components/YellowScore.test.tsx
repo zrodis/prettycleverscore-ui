@@ -6,7 +6,7 @@ describe('YellowScore', () => {
     it('should render Boxes', () => {
         const { getAllByTestId } = render(<YellowScore onChange={() => {}} />)
 
-        expect(getAllByTestId('box')).toHaveLength(24)
+        expect(getAllByTestId('box')).toHaveLength(25)
     })
 
     it('clicking a Boxes changes the state to selected', async () => {

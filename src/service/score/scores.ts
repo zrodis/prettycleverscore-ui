@@ -1,4 +1,4 @@
-export const add = ({ values }): number => {
+export const add = ({ values }: { values: number[] }): number => {
     return values.reduce((total, num) => {
         return total + +num
     }, 0)
@@ -14,7 +14,7 @@ export const calculateGreen = ({ quantity }: Quantity): number => {
     return total
 }
 
-export const calculateOrange = ({ values }): number => {
+export const calculateOrange = ({ values }: { values: number[] }): number => {
     return values.reduce((total, num, index) => {
         if (index === 3 || index === 6 || index === 8) {
             num *= 2
