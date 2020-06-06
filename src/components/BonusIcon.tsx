@@ -23,24 +23,28 @@ interface IconWrapperProps {
 
 const IconWrapper = ({ children, style }: IconWrapperProps) => (
     <div
-        style={{
-            width: '20px',
-            height: '20px',
-            backgroundColor: 'white',
-            color: 'black',
-            textAlign: 'center',
-            border: 'solid 2px #333',
-            borderRadius: '5px',
-            margin: '2px auto',
-            fontSize: '17px',
-            ...style,
-        }}
+        style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
     >
-        {children}
+        <div
+            style={{
+                width: '20px',
+                height: '20px',
+                backgroundColor: 'white',
+                color: 'black',
+                textAlign: 'center',
+                border: 'solid 2px #333',
+                borderRadius: '5px',
+                // margin: '2px auto',
+                fontSize: '17px',
+                ...style,
+            }}
+        >
+            {children}
+        </div>
     </div>
 )
 
-export const BonusIcon = ({ type }) => {
+export const BonusIcon = ({ type }: { type: BONUS }) => {
     switch (type) {
         case ReRoll:
             return <IconWrapper>RR</IconWrapper>

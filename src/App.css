@@ -24,6 +24,18 @@
     padding: 0px;
     width: 275px;
 }
+.MuiSelect-root {
+    margin: 0 !important;
+}
+
+.MuiInputBase-input {
+    padding-bottom: 0 !important;
+}
+
+.MuiInput-underline:after,
+.MuiInput-underline:before {
+    border-bottom: none !important;
+}
 
 @media (prefers-reduced-motion: no-preference) {
 }
