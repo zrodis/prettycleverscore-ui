@@ -5,7 +5,7 @@ import { COLOR } from '../constants/colors'
 const scoreConfig: number[] = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6]
 
 interface GreenScoreProps {
-    onChange(quantity: number): void
+    onChange(quantity: number, fox: boolean): void
 }
 
 const useGreenSelection = () => {
@@ -39,8 +39,11 @@ export const GreenScore = ({ onChange }: GreenScoreProps) => {
         const quantity = checkedState.reduce((total, isTrue) => {
             return isTrue ? total + 1 : total
         }, 0)
-        onChange(quantity)
-    }, [checkedState, onChange])
+
+        const fox = quantity >= 6
+
+        onChange(quantity, fox)
+    }, [checkedState])
 
     const handleClick = (rowIndex) => {
         setCheckedState(rowIndex)

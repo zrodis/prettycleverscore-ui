@@ -3,9 +3,11 @@ import { Box, BonusBox } from './Box'
 import { useGridSelection } from '../hooks/useGridSelection'
 import { countBlueSelection } from '../service/score/blue'
 import { COLOR } from '../constants/colors'
+import { BonusIcon } from './BonusIcon'
+import { BONUS } from '../service/score/bonusConstants'
 
 interface BlueScoreProps {
-    onChange(quantity: number): void
+    onChange(quantity: number, fox: boolean): void
 }
 
 const scoreConfig: number[][] = [
@@ -22,8 +24,9 @@ export const BlueScore = ({ onChange }: BlueScoreProps) => {
     ])
 
     useEffect(() => {
-        onChange(countBlueSelection(checkedState))
-    }, [checkedState, onChange])
+        const fox = bingoState.rows.includes(2)
+        onChange(countBlueSelection(checkedState), fox)
+    }, [checkedState, bingoState.rows])
 
     const handleClick = (rowIndex: number, columnIndex: number) => {
         setSelection({ rowIndex, columnIndex })
@@ -59,28 +62,40 @@ export const BlueScore = ({ onChange }: BlueScoreProps) => {
             <div className='scoreright'>
                 <BonusBox
                     checked={bingoState.rows.includes(0)}
-                    display={'?'}
+                    display={<BonusIcon type={BONUS.Orange5} />}
                     vertical
                     style={{ marginBottom: '11px' }}
                 />
                 <BonusBox
                     checked={bingoState.rows.includes(1)}
-                    display={'?'}
+                    display={<BonusIcon type={BONUS.FreeYellow} />}
                     vertical
                     style={{ marginBottom: '11px' }}
                 />
                 <BonusBox
                     checked={bingoState.rows.includes(2)}
-                    display={'?'}
+                    display={<BonusIcon type={BONUS.Fox} />}
                     vertical
                     style={{ marginBottom: '11px' }}
                 />
             </div>
             <div className='scorebottom'>
-                <BonusBox checked={bingoState.columns.includes(0)} />
-                <BonusBox checked={bingoState.columns.includes(1)} />
-                <BonusBox checked={bingoState.columns.includes(2)} />
-                <BonusBox checked={bingoState.columns.includes(3)} />
+                <BonusBox
+                    checked={bingoState.columns.includes(0)}
+                    display={<BonusIcon type={BONUS.ReRoll} />}
+                />
+                <BonusBox
+                    checked={bingoState.columns.includes(1)}
+                    display={<BonusIcon type={BONUS.FreeGreen} />}
+                />
+                <BonusBox
+                    checked={bingoState.columns.includes(2)}
+                    display={<BonusIcon type={BONUS.Purple6} />}
+                />
+                <BonusBox
+                    checked={bingoState.columns.includes(3)}
+                    display={<BonusIcon type={BONUS.PlusOne} />}
+                />
             </div>
         </div>
     )

@@ -1,13 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box, BonusBox } from './Box'
 import { useGridSelection } from '../hooks/useGridSelection'
-import { useYellowScore } from '../hooks/useYellowScore'
 import { COLOR } from '../constants/colors'
 import { BonusIcon } from './BonusIcon'
 import { BONUS } from '../service/score/bonusConstants'
 
 interface YellowScoreProps {
-    onChange(scores: number[]): void
+    onChange(scores: number[], fox: boolean): void
 }
 
 const scoreConfig: number[][] = [
@@ -17,7 +16,7 @@ const scoreConfig: number[][] = [
     [0, 3, 4, 6],
 ]
 
-export const YellowScore: React.SFC<YellowScoreProps> = (props: YellowScoreProps) => {
+export const YellowScore: React.SFC<YellowScoreProps> = ({ onChange }: YellowScoreProps) => {
     const { checkedState, bingoState, setSelection } = useGridSelection([
         [false, false, false, false],
         [false, false, false, false],
@@ -25,7 +24,16 @@ export const YellowScore: React.SFC<YellowScoreProps> = (props: YellowScoreProps
         [false, false, false, false],
     ])
 
-    useYellowScore({ onChange: props.onChange, columns: bingoState.columns })
+    useEffect(() => {
+        const columnToScore = { 0: 10, 1: 14, 2: 16, 3: 20 }
+
+        const fox = bingoState.rows.includes(3)
+
+        onChange(
+            bingoState.columns.map((val) => columnToScore[val]),
+            fox
+        )
+    }, [bingoState.columns, bingoState.rows])
 
     const handleClick = (rowIndex: number, columnIndex: number) => {
         setSelection({ rowIndex, columnIndex })

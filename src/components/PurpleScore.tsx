@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, ChangeEvent } from 'react'
 import { Box } from './Box'
 import { Select, MenuItem } from '@material-ui/core'
 import { BONUS } from '../service/score/bonusConstants'
@@ -22,24 +22,30 @@ const bonusMap = [
 ]
 
 interface PurpleScoreProps {
-    onChange(inputValues: number[]): void
+    onChange(inputValues: number[], fox: boolean): void
 }
 
-const DieSelect = ({ value, onChange }) => {
+interface DieSelect {
+    value: number
+    previousValue: number
+    onChange(event: ChangeEvent<{ value: number }>)
+}
+
+export const DieSelect = ({ value, previousValue, onChange }: DieSelect) => {
+    let menuOptions = [1, 2, 3, 4, 5, 6]
+    if (previousValue < 6) {
+        menuOptions = menuOptions.filter((n) => previousValue < n)
+    }
+
     return (
-        <Select
-            labelId='demo-simple-select-required-label'
-            id='demo-simple-select-required'
-            value={value}
-            onChange={onChange}
-        >
+        <Select id='die-select' value={value} onChange={onChange}>
             <MenuItem value={0}>{''}</MenuItem>
-            <MenuItem value={1}>{1}</MenuItem>
-            <MenuItem value={2}>{2}</MenuItem>
-            <MenuItem value={3}>{3}</MenuItem>
-            <MenuItem value={4}>{4}</MenuItem>
-            <MenuItem value={5}>{5}</MenuItem>
-            <MenuItem value={6}>{6}</MenuItem>
+
+            {menuOptions.map((n) => (
+                <MenuItem key={n} value={n}>
+                    {n}
+                </MenuItem>
+            ))}
         </Select>
     )
 }
@@ -56,8 +62,10 @@ export const PurpleScore = ({ onChange }: PurpleScoreProps) => {
     }
 
     useEffect(() => {
-        onChange(inputState)
-    }, [inputState, onChange])
+        const fox = inputState[6] !== 0
+
+        onChange(inputState, fox)
+    }, [inputState])
 
     return (
         <div
@@ -72,18 +80,14 @@ export const PurpleScore = ({ onChange }: PurpleScoreProps) => {
         >
             {inputState.map((value, index) => {
                 return (
-                    <div
-                        key={index}
-                        style={{
-                            display: 'inline-block',
-                        }}
-                    >
+                    <div key={index} style={{ display: 'inline-block' }}>
                         <Box
                             onClick={null}
                             checked={false}
                             display={
                                 <DieSelect
                                     value={value}
+                                    previousValue={inputState[index - 1] || 6}
                                     onChange={(event) => handleChange(event, index)}
                                 />
                             }

@@ -22,7 +22,7 @@ const bonusMap = [
 ]
 
 interface OrangeScoreProps {
-    onChange(inputValues: number[]): void
+    onChange(inputValues: number[], fox: boolean): void
 }
 
 const DieSelect = ({ value, onChange, bonus }) => {
@@ -41,7 +41,7 @@ const DieSelect = ({ value, onChange, bonus }) => {
         }
 
         if (calculatedValue === 0) {
-            return <span>{''}</span>
+            return ''
         }
 
         return <span>{calculatedValue}</span>
@@ -76,10 +76,10 @@ export const OrangeScore = ({ onChange }: OrangeScoreProps) => {
 
         setInput(input)
     }
-
     useEffect(() => {
-        onChange(inputState)
-    }, [inputState, onChange])
+        const fox = inputState[7] !== 0
+        onChange(inputState, fox)
+    }, [inputState])
 
     return (
         <div
