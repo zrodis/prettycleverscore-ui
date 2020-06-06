@@ -33,6 +33,7 @@ export const YellowScore: React.SFC<YellowScoreProps> = ({ onChange }: YellowSco
             bingoState.columns.map((val) => columnToScore[val]),
             fox
         )
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [bingoState.columns, bingoState.rows])
 
     const handleClick = (rowIndex: number, columnIndex: number) => {
@@ -42,28 +43,26 @@ export const YellowScore: React.SFC<YellowScoreProps> = ({ onChange }: YellowSco
     return (
         <div
             data-testid='YellowScore'
-            className='score-container'
+            className='scorebox-container'
             style={{ backgroundColor: COLOR.yellow }}
         >
             <div className='scorebox'>
-                {scoreConfig.map((row, rowIndex) => {
-                    return (
-                        <div key={rowIndex}>
-                            {row.map((column, columnIndex) => {
-                                const checked = checkedState[rowIndex][columnIndex]
+                {scoreConfig.map((row, rowIndex) => (
+                    <div key={rowIndex}>
+                        {row.map((column, columnIndex) => {
+                            const checked = checkedState[rowIndex][columnIndex]
 
-                                return (
-                                    <Box
-                                        key={`${rowIndex} ${columnIndex}`}
-                                        onClick={() => handleClick(rowIndex, columnIndex)}
-                                        checked={checked}
-                                        display={column}
-                                    />
-                                )
-                            })}
-                        </div>
-                    )
-                })}
+                            return (
+                                <Box
+                                    key={`${rowIndex} ${columnIndex}`}
+                                    onClick={() => handleClick(rowIndex, columnIndex)}
+                                    checked={checked}
+                                    display={column}
+                                />
+                            )
+                        })}
+                    </div>
+                ))}
             </div>
             <div className='scoreright'>
                 <BonusBox

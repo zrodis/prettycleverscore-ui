@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useCallback, useState } from 'react'
 import './App.css'
-import { YellowScore } from './components/YellowScore'
-import { add, calculateGreen, calculateOrange, getFoxCount } from './service/score/scores'
 import { BlueScore } from './components/BlueScore'
-import { calculateBlue } from './service/score/blue'
 import { GreenScore } from './components/GreenScore'
 import { OrangeScore } from './components/OrangeScore'
 import { PurpleScore } from './components/PurpleScore'
+import { YellowScore } from './components/YellowScore'
+import { calculateBlue } from './service/score/blue'
+import { add, calculateGreen, calculateOrange, getFoxCount } from './service/score/scores'
 import { calulateTotalScore } from './service/score/totalScore'
 
 function App() {
@@ -23,10 +23,14 @@ function App() {
         purple: false,
     })
 
-    const handleYellowScoreUpdate = (values: number[], fox: boolean) => {
-        setFoxState({ ...foxState, yellow: fox })
-        setYellowScore(add({ values }))
-    }
+    const handleYellowScoreUpdate = useCallback(
+        (values: number[], fox: boolean) => {
+            setFoxState({ ...foxState, yellow: fox })
+            setYellowScore(add({ values }))
+        },
+        [foxState, setFoxState]
+    )
+
     const handleBlueScoreUpdate = (quantity: number, fox: boolean) => {
         setFoxState({ ...foxState, blue: fox })
         setBlueScore(calculateBlue({ quantity }))

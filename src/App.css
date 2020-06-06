@@ -15,7 +15,7 @@
     grid-area: corner;
 }
 
-.score-container {
+.scorebox-container {
     display: inline-grid;
     grid-template-areas:
         'scorebox scoreright'

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Box } from './Box'
 import { COLOR } from '../constants/colors'
+import { ScoreRowContainer } from './ScoreRowContainer'
 
 const scoreConfig: number[] = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6]
 
@@ -43,6 +44,7 @@ export const GreenScore = ({ onChange }: GreenScoreProps) => {
         const fox = quantity >= 6
 
         onChange(quantity, fox)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [checkedState])
 
     const handleClick = (rowIndex) => {
@@ -50,16 +52,7 @@ export const GreenScore = ({ onChange }: GreenScoreProps) => {
     }
 
     return (
-        <div
-            data-testid='GreenScore'
-            style={{
-                backgroundColor: COLOR.green,
-                display: 'inline-block',
-                padding: '4px',
-                margin: '3px auto',
-                borderRadius: '4px',
-            }}
-        >
+        <ScoreRowContainer testId='GreenScore' color={COLOR.green}>
             {scoreConfig.map((value, rowIndex) => {
                 return (
                     <Box
@@ -70,6 +63,6 @@ export const GreenScore = ({ onChange }: GreenScoreProps) => {
                     />
                 )
             })}
-        </div>
+        </ScoreRowContainer>
     )
 }

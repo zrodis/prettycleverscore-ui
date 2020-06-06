@@ -26,6 +26,7 @@ export const BlueScore = ({ onChange }: BlueScoreProps) => {
     useEffect(() => {
         const fox = bingoState.rows.includes(2)
         onChange(countBlueSelection(checkedState), fox)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [checkedState, bingoState.rows])
 
     const handleClick = (rowIndex: number, columnIndex: number) => {
@@ -35,29 +36,27 @@ export const BlueScore = ({ onChange }: BlueScoreProps) => {
     return (
         <div
             data-testid='BlueScore'
-            className='score-container'
+            className='scorebox-container'
             style={{ backgroundColor: COLOR.blue }}
         >
             <div className='scorebox'>
-                {scoreConfig.map((row, rowIndex) => {
-                    return (
-                        <div key={rowIndex}>
-                            {row.map((column, columnIndex) => {
-                                const checked = checkedState[rowIndex][columnIndex]
+                {scoreConfig.map((row, rowIndex) => (
+                    <div key={rowIndex}>
+                        {row.map((column, columnIndex) => {
+                            const checked = checkedState[rowIndex][columnIndex]
 
-                                return (
-                                    <Box
-                                        key={`${rowIndex} ${columnIndex}`}
-                                        onClick={() => handleClick(rowIndex, columnIndex)}
-                                        checked={checked}
-                                        display={column}
-                                        renderBlank={column === null}
-                                    />
-                                )
-                            })}
-                        </div>
-                    )
-                })}
+                            return (
+                                <Box
+                                    key={`${rowIndex} ${columnIndex}`}
+                                    onClick={() => handleClick(rowIndex, columnIndex)}
+                                    checked={checked}
+                                    display={column}
+                                    renderBlank={column === null}
+                                />
+                            )
+                        })}
+                    </div>
+                ))}
             </div>
             <div className='scoreright'>
                 <BonusBox

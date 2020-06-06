@@ -4,6 +4,7 @@ import { Select, MenuItem } from '@material-ui/core'
 import { BONUS } from '../service/score/bonusConstants'
 import { COLOR } from '../constants/colors'
 import { BonusIcon } from './BonusIcon'
+import { ScoreRowContainer } from './ScoreRowContainer'
 
 const initialScore = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -65,19 +66,11 @@ export const PurpleScore = ({ onChange }: PurpleScoreProps) => {
         const fox = inputState[6] !== 0
 
         onChange(inputState, fox)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inputState])
 
     return (
-        <div
-            data-testid='Purple'
-            style={{
-                backgroundColor: COLOR.purple,
-                display: 'inline-block',
-                padding: '4px',
-                margin: '3px auto',
-                borderRadius: '4px',
-            }}
-        >
+        <ScoreRowContainer testId='Purple' color={COLOR.purple}>
             {inputState.map((value, index) => {
                 return (
                     <div key={index} style={{ display: 'inline-block' }}>
@@ -96,6 +89,6 @@ export const PurpleScore = ({ onChange }: PurpleScoreProps) => {
                     </div>
                 )
             })}
-        </div>
+        </ScoreRowContainer>
     )
 }
