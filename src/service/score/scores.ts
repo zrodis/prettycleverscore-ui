@@ -1,3 +1,17 @@
+interface FoxScoreState {
+    yellow: boolean
+    blue: boolean
+    green: boolean
+    orange: boolean
+    purple: boolean
+}
+
+export const getFoxCount = (foxState: FoxScoreState): number => {
+    return Object.values(foxState).reduce((total, fox) => {
+        return fox ? total + 1 : total
+    }, 0)
+}
+
 export const add = ({ values }: { values: number[] }): number => {
     return values.reduce((total, num) => {
         return total + +num

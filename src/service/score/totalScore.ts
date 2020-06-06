@@ -1,22 +1,21 @@
-import { calculateGreen, calculateOrange, add } from './scores'
-import { calculateBlue } from './blue'
+import { add } from './scores'
 
 interface TotalScore {
-    yellow: Array<number>
-    blue: number
-    green: number
-    orange: Array<number>
-    purple: Array<number>
-    foxes: number
+    yellowScore: number
+    blueScore: number
+    greenScore: number
+    orangeScore: number
+    purpleScore: number
+    foxCount: number
 }
 
 export const calulateTotalScore = (scoreData: TotalScore): number => {
     const scoreTotals = [
-        add({ values: scoreData.yellow }),
-        calculateBlue({ quantity: scoreData.blue }),
-        calculateOrange({ values: scoreData.orange }),
-        calculateGreen({ quantity: scoreData.green }),
-        add({ values: scoreData.purple }),
+        scoreData.yellowScore,
+        scoreData.blueScore,
+        scoreData.orangeScore,
+        scoreData.greenScore,
+        scoreData.purpleScore,
     ]
 
     const lowestScore = scoreTotals.reduce((lowest, current) => {
@@ -24,7 +23,7 @@ export const calulateTotalScore = (scoreData: TotalScore): number => {
         return lowest
     })
 
-    const foxScore = lowestScore * scoreData.foxes
+    const foxScore = lowestScore * scoreData.foxCount
 
     return add({
         values: [...scoreTotals, foxScore],
