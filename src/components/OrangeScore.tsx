@@ -89,7 +89,6 @@ export const OrangeScore = ({ onChange }: OrangeScoreProps) => {
                 return (
                     <div key={index} style={{ display: 'inline-block' }}>
                         <Box
-                            onClick={null}
                             checked={false}
                             display={
                                 <DieSelect

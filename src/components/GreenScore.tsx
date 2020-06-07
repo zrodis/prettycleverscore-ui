@@ -2,8 +2,25 @@ import React, { useState, useEffect } from 'react'
 import { Box } from './Box'
 import { COLOR } from '../constants/colors'
 import { ScoreRowContainer } from './ScoreRowContainer'
+import { BonusIcon } from './BonusIcon'
+import { BONUS } from '../service/score/bonusConstants'
+import { calculateGreen } from '../service/score/scores'
 
 const scoreConfig: number[] = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6]
+
+const bonusMap = [
+    null,
+    null,
+    null,
+    BONUS.PlusOne,
+    null,
+    BONUS.FreeBlue,
+    BONUS.Fox,
+    null,
+    BONUS.Purple6,
+    BONUS.ReRoll,
+    null,
+]
 
 interface GreenScoreProps {
     onChange(quantity: number, fox: boolean): void
@@ -53,14 +70,18 @@ export const GreenScore = ({ onChange }: GreenScoreProps) => {
 
     return (
         <ScoreRowContainer testId='GreenScore' color={COLOR.green}>
-            {scoreConfig.map((value, rowIndex) => {
+            {scoreConfig.map((value, index) => {
                 return (
-                    <Box
-                        key={`${rowIndex}`}
-                        onClick={() => handleClick(rowIndex)}
-                        checked={checkedState[rowIndex]}
-                        display={<span style={{ fontSize: '0.5em' }}>{`>=${value}`}</span>}
-                    />
+                    <div key={index} style={{ display: 'inline-block' }}>
+                        <div>{calculateGreen({ quantity: index + 1 })}</div>
+                        <Box
+                            key={`${index}`}
+                            onClick={() => handleClick(index)}
+                            checked={checkedState[index]}
+                            display={<span style={{ fontSize: '0.5em' }}>{`>=${value}`}</span>}
+                        />
+                        <BonusIcon type={bonusMap[index]} />
+                    </div>
                 )
             })}
         </ScoreRowContainer>

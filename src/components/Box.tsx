@@ -1,7 +1,7 @@
 import React from 'react'
 
 export interface BoxProps {
-    onClick(param: any): void
+    onClick?(param: any): void
     checked: boolean
     display?: React.ReactNode
     style?: any
