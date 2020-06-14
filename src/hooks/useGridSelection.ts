@@ -25,5 +25,5 @@ export const useGridSelection = (inital: boolean[][]) => {
         })
     }, [checkedState])
 
-    return { checkedState, bingoState, setSelection }
+    return { checkedState, bingoState, setSelection, setChecked }
 }

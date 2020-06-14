@@ -1,14 +1,16 @@
-interface FoxScoreState {
-    yellow: boolean
-    blue: boolean
-    green: boolean
-    orange: boolean
-    purple: boolean
+import { Bonuses } from '../bonus'
+
+interface BonusState {
+    yellow: Bonuses
+    blue: Bonuses
+    green: Bonuses
+    orange: Bonuses
+    purple: Bonuses
 }
 
-export const getFoxCount = (foxState: FoxScoreState): number => {
-    return Object.values(foxState).reduce((total, fox) => {
-        return fox ? total + 1 : total
+export const getFoxCount = (bonusState: BonusState): number => {
+    return Object.values(bonusState).reduce((total, color) => {
+        return color.fox ? total + 1 : total
     }, 0)
 }
 

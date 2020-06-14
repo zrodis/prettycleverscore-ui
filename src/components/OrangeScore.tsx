@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Box } from './Box'
 import { Select, MenuItem } from '@material-ui/core'
-import { BONUS } from '../service/score/bonusConstants'
+import { BONUS } from '../service/bonusConstants'
 import { COLOR } from '../constants/colors'
 import { BonusIcon } from './BonusIcon'
 import { ScoreRowContainer } from './ScoreRowContainer'
+import { Bonuses, calculateBonusesForRow } from '../service/bonus'
 
 const initialScore = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -23,7 +24,7 @@ const bonusMap = [
 ]
 
 interface OrangeScoreProps {
-    onChange(inputValues: number[], fox: boolean): void
+    onChange(inputValues: number[], bonuses: Bonuses): void
 }
 
 const DieSelect = ({ value, onChange, bonus }) => {
@@ -78,8 +79,7 @@ export const OrangeScore = ({ onChange }: OrangeScoreProps) => {
         setInput(input)
     }
     useEffect(() => {
-        const fox = inputState[7] !== 0
-        onChange(inputState, fox)
+        onChange(inputState, calculateBonusesForRow(inputState, bonusMap))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inputState])
 

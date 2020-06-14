@@ -3,8 +3,9 @@ import { Box } from './Box'
 import { COLOR } from '../constants/colors'
 import { ScoreRowContainer } from './ScoreRowContainer'
 import { BonusIcon } from './BonusIcon'
-import { BONUS } from '../service/score/bonusConstants'
+import { BONUS } from '../service/bonusConstants'
 import { calculateGreen } from '../service/score/scores'
+import { Bonuses, calculateBonusesForRow } from '../service/bonus'
 
 const scoreConfig: number[] = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6]
 
@@ -23,7 +24,7 @@ const bonusMap = [
 ]
 
 interface GreenScoreProps {
-    onChange(quantity: number, fox: boolean): void
+    onChange(quantity: number, bonuses: Bonuses): void
 }
 
 const useGreenSelection = () => {
@@ -58,9 +59,7 @@ export const GreenScore = ({ onChange }: GreenScoreProps) => {
             return isTrue ? total + 1 : total
         }, 0)
 
-        const fox = quantity >= 6
-
-        onChange(quantity, fox)
+        onChange(quantity, calculateBonusesForRow(checkedState, bonusMap))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [checkedState])
 

@@ -4,11 +4,15 @@ import { useGridSelection } from '../hooks/useGridSelection'
 import { countBlueSelection } from '../service/score/blue'
 import { COLOR } from '../constants/colors'
 import { BonusIcon } from './BonusIcon'
-import { BONUS } from '../service/score/bonusConstants'
+import { BONUS } from '../service/bonusConstants'
+import { Bonuses } from '../service/bonus'
 
 interface BlueScoreProps {
-    onChange(quantity: number, fox: boolean): void
+    onChange(quantity: number, bonuses: Bonuses): void
 }
+
+const bonusMapRight = [BONUS.Orange5, BONUS.FreeYellow, BONUS.Fox]
+const bonusMapBottom = [BONUS.ReRoll, BONUS.FreeGreen, BONUS.Purple6, BONUS.PlusOne]
 
 const scoreConfig: number[][] = [
     [null, 2, 3, 4],
@@ -25,7 +29,10 @@ export const BlueScore = ({ onChange }: BlueScoreProps) => {
 
     useEffect(() => {
         const fox = bingoState.rows.includes(2)
-        onChange(countBlueSelection(checkedState), fox)
+        const plusOnes = bingoState.columns.includes(3) ? 1 : 0
+        const reRolls = bingoState.columns.includes(0) ? 1 : 0
+
+        onChange(countBlueSelection(checkedState), { fox, plusOnes, reRolls })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [checkedState, bingoState.rows])
 
@@ -59,42 +66,28 @@ export const BlueScore = ({ onChange }: BlueScoreProps) => {
                 ))}
             </div>
             <div className='scoreright'>
-                <BonusBox
-                    checked={bingoState.rows.includes(0)}
-                    display={<BonusIcon type={BONUS.Orange5} />}
-                    vertical
-                    style={{ marginBottom: '11px' }}
-                />
-                <BonusBox
-                    checked={bingoState.rows.includes(1)}
-                    display={<BonusIcon type={BONUS.FreeYellow} />}
-                    vertical
-                    style={{ marginBottom: '11px' }}
-                />
-                <BonusBox
-                    checked={bingoState.rows.includes(2)}
-                    display={<BonusIcon type={BONUS.Fox} />}
-                    vertical
-                    style={{ marginBottom: '11px' }}
-                />
+                {bonusMapRight.map((bonus, index) => {
+                    return (
+                        <BonusBox
+                            key={index}
+                            checked={bingoState.rows.includes(index)}
+                            display={<BonusIcon type={bonus} />}
+                            vertical
+                            style={{ marginBottom: '11px' }}
+                        />
+                    )
+                })}
             </div>
             <div className='scorebottom'>
-                <BonusBox
-                    checked={bingoState.columns.includes(0)}
-                    display={<BonusIcon type={BONUS.ReRoll} />}
-                />
-                <BonusBox
-                    checked={bingoState.columns.includes(1)}
-                    display={<BonusIcon type={BONUS.FreeGreen} />}
-                />
-                <BonusBox
-                    checked={bingoState.columns.includes(2)}
-                    display={<BonusIcon type={BONUS.Purple6} />}
-                />
-                <BonusBox
-                    checked={bingoState.columns.includes(3)}
-                    display={<BonusIcon type={BONUS.PlusOne} />}
-                />
+                {bonusMapBottom.map((bonus, index) => {
+                    return (
+                        <BonusBox
+                            key={index}
+                            checked={bingoState.columns.includes(index)}
+                            display={<BonusIcon type={bonus} />}
+                        />
+                    )
+                })}
             </div>
         </div>
     )

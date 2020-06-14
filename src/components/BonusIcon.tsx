@@ -1,5 +1,5 @@
 import React from 'react'
-import { BONUS } from '../service/score/bonusConstants'
+import { BONUS } from '../service/bonusConstants'
 import { COLOR } from '../constants/colors'
 const {
     ReRoll,

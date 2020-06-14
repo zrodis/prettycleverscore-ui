@@ -3,11 +3,15 @@ import { Box, BonusBox } from './Box'
 import { useGridSelection } from '../hooks/useGridSelection'
 import { COLOR } from '../constants/colors'
 import { BonusIcon } from './BonusIcon'
-import { BONUS } from '../service/score/bonusConstants'
+import { BONUS } from '../service/bonusConstants'
+import { Bonuses } from '../service/bonus'
 
 interface YellowScoreProps {
-    onChange(scores: number[], fox: boolean): void
+    onChange(scores: number[], bonuses: Bonuses): void
 }
+
+const bonusMapRight = [BONUS.FreeBlue, BONUS.Orange4, BONUS.FreeGreen, BONUS.Fox]
+const scoreMap = [10, 14, 16, 20]
 
 const scoreConfig: number[][] = [
     [3, 6, 5, 0],
@@ -17,21 +21,22 @@ const scoreConfig: number[][] = [
 ]
 
 export const YellowScore: React.SFC<YellowScoreProps> = ({ onChange }: YellowScoreProps) => {
-    const { checkedState, bingoState, setSelection } = useGridSelection([
-        [false, false, false, false],
-        [false, false, false, false],
-        [false, false, false, false],
-        [false, false, false, false],
+    const { checkedState, setChecked, bingoState, setSelection } = useGridSelection([
+        [false, false, false, true],
+        [false, false, true, false],
+        [false, true, false, false],
+        [true, false, false, false],
     ])
 
     useEffect(() => {
         const columnToScore = { 0: 10, 1: 14, 2: 16, 3: 20 }
 
-        const fox = bingoState.rows.includes(3)
-
         onChange(
             bingoState.columns.map((val) => columnToScore[val]),
-            fox
+            {
+                fox: bingoState.rows.includes(3),
+                plusOnes: bingoState.diagonal ? 1 : 0,
+            }
         )
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [bingoState.columns, bingoState.rows])
@@ -65,36 +70,24 @@ export const YellowScore: React.SFC<YellowScoreProps> = ({ onChange }: YellowSco
                 ))}
             </div>
             <div className='scoreright'>
-                <BonusBox
-                    checked={bingoState.rows.includes(0)}
-                    display={<BonusIcon type={BONUS.FreeBlue} />}
-                    vertical
-                    style={{ marginBottom: '11px' }}
-                />
-                <BonusBox
-                    checked={bingoState.rows.includes(1)}
-                    display={<BonusIcon type={BONUS.Orange4} />}
-                    vertical
-                    style={{ marginBottom: '11px' }}
-                />
-                <BonusBox
-                    checked={bingoState.rows.includes(2)}
-                    display={<BonusIcon type={BONUS.FreeGreen} />}
-                    vertical
-                    style={{ marginBottom: '11px' }}
-                />
-                <BonusBox
-                    checked={bingoState.rows.includes(3)}
-                    display={<BonusIcon type={BONUS.Fox} />}
-                    vertical
-                    style={{ marginBottom: '11px' }}
-                />
+                {bonusMapRight.map((bonus, index) => (
+                    <BonusBox
+                        key={index}
+                        checked={bingoState.rows.includes(index)}
+                        display={<BonusIcon type={bonus} />}
+                        vertical
+                        style={{ marginBottom: '11px' }}
+                    />
+                ))}
             </div>
             <div className='scorebottom'>
-                <BonusBox checked={bingoState.columns.includes(0)} display={'10'} />
-                <BonusBox checked={bingoState.columns.includes(1)} display={'14'} />
-                <BonusBox checked={bingoState.columns.includes(2)} display={'16'} />
-                <BonusBox checked={bingoState.columns.includes(3)} display={'20'} />
+                {scoreMap.map((score, index) => (
+                    <BonusBox
+                        key={index}
+                        checked={bingoState.columns.includes(index)}
+                        display={score}
+                    />
+                ))}
             </div>
             <div className='corner'>
                 <BonusBox

@@ -1,10 +1,11 @@
 import React, { useState, useEffect, ChangeEvent } from 'react'
 import { Box } from './Box'
 import { Select, MenuItem } from '@material-ui/core'
-import { BONUS } from '../service/score/bonusConstants'
+import { BONUS } from '../service/bonusConstants'
 import { COLOR } from '../constants/colors'
 import { BonusIcon } from './BonusIcon'
 import { ScoreRowContainer } from './ScoreRowContainer'
+import { Bonuses, calculateBonusesForRow } from '../service/bonus'
 
 const initialScore = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
@@ -23,7 +24,7 @@ const bonusMap = [
 ]
 
 interface PurpleScoreProps {
-    onChange(inputValues: number[], fox: boolean): void
+    onChange(inputValues: number[], bonuses: Bonuses): void
 }
 
 interface DieSelect {
@@ -52,9 +53,9 @@ export const DieSelect = ({ value, previousValue, onChange }: DieSelect) => {
 }
 
 export const PurpleScore = ({ onChange }: PurpleScoreProps) => {
-    const [inputState, setInput] = useState(initialScore)
+    const [inputState, setInput] = useState<number[]>(initialScore)
 
-    const handleChange = ({ target }: React.ChangeEvent<{ value: number }>, index) => {
+    const handleDieChange = ({ target }: React.ChangeEvent<{ value: number }>, index) => {
         const input = [...inputState]
 
         input[index] = target.value
@@ -63,9 +64,7 @@ export const PurpleScore = ({ onChange }: PurpleScoreProps) => {
     }
 
     useEffect(() => {
-        const fox = inputState[6] !== 0
-
-        onChange(inputState, fox)
+        onChange(inputState, calculateBonusesForRow(inputState, bonusMap))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inputState])
 
@@ -80,7 +79,7 @@ export const PurpleScore = ({ onChange }: PurpleScoreProps) => {
                                 <DieSelect
                                     value={value}
                                     previousValue={inputState[index - 1] || 6}
-                                    onChange={(event) => handleChange(event, index)}
+                                    onChange={(event) => handleDieChange(event, index)}
                                 />
                             }
                         />
