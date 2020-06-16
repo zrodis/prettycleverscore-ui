@@ -9,3 +9,12 @@ export const yellowCheckedState = atom({
         [true, false, false, false],
     ],
 })
+
+export const blueCheckedState = atom({
+    key: 'blueCheckedState',
+    default: [
+        [true, false, false, false],
+        [false, false, false, false],
+        [false, false, false, false],
+    ],
+})

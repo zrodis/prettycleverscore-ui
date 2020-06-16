@@ -8,6 +8,7 @@ export const yellowBingoState = selector<BingoState>({
     key: 'yellowBingoState',
     get: ({ get }) => {
         const checkedState = get(yellowCheckedState)
+
         return {
             rows: getRowMatches(checkedState),
             columns: getColumnMatches(checkedState),

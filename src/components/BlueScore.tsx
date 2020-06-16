@@ -1,15 +1,12 @@
-import React, { useEffect } from 'react'
-import { Box, BonusBox } from './Box'
-import { useGridSelection } from '../hooks/useGridSelection'
-import { countBlueSelection } from '../service/score/blue'
+import React from 'react'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { COLOR } from '../constants/colors'
-import { BonusIcon } from './BonusIcon'
+import { BingoState } from '../hooks/useGridSelection'
+import { blueCheckedState } from '../recoil/atoms'
+import { blueBingoState } from '../recoil/blueSelectors'
 import { BONUS } from '../service/bonusConstants'
-import { Bonuses } from '../service/bonus'
-
-interface BlueScoreProps {
-    onChange(quantity: number, bonuses: Bonuses): void
-}
+import { BonusIcon } from './BonusIcon'
+import { BonusBox, Box } from './Box'
 
 const bonusMapRight = [BONUS.Orange5, BONUS.FreeYellow, BONUS.Fox]
 const bonusMapBottom = [BONUS.ReRoll, BONUS.FreeGreen, BONUS.Purple6, BONUS.PlusOne]
@@ -20,24 +17,15 @@ const scoreConfig: number[][] = [
     [9, 10, 11, 12],
 ]
 
-export const BlueScore = ({ onChange }: BlueScoreProps) => {
-    const { checkedState, bingoState, setSelection } = useGridSelection([
-        [true, false, false, false],
-        [false, false, false, false],
-        [false, false, false, false],
-    ])
-
-    useEffect(() => {
-        const fox = bingoState.rows.includes(2)
-        const plusOnes = bingoState.columns.includes(3) ? 1 : 0
-        const reRolls = bingoState.columns.includes(0) ? 1 : 0
-
-        onChange(countBlueSelection(checkedState), { fox, plusOnes, reRolls })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [checkedState, bingoState.rows])
+export const BlueScore = () => {
+    const [checkedState, setChecked] = useRecoilState<boolean[][]>(blueCheckedState)
+    const bingoState = useRecoilValue<BingoState>(blueBingoState)
 
     const handleClick = (rowIndex: number, columnIndex: number) => {
-        setSelection({ rowIndex, columnIndex })
+        //recoil doesn't like the inner arrays to mutate... so they have to be re-created
+        const checked = [...checkedState.map((row) => [...row])]
+        checked[rowIndex][columnIndex] = !checked[rowIndex][columnIndex]
+        setChecked(checked)
     }
 
     return (

@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
-import { Box, BonusBox } from './Box'
 import { COLOR } from '../constants/colors'
-import { BonusIcon } from './BonusIcon'
-import { BONUS } from '../service/bonusConstants'
-import { Bonuses } from '../service/bonus'
+import { BingoState } from '../hooks/useGridSelection'
 import { yellowCheckedState } from '../recoil/atoms'
 import { yellowBingoState } from '../recoil/yellowSelectors'
-import { BingoState } from '../hooks/useGridSelection'
+import { BONUS } from '../service/bonusConstants'
+import { BonusIcon } from './BonusIcon'
+import { BonusBox, Box } from './Box'
 
 const bonusMapRight = [BONUS.FreeBlue, BONUS.Orange4, BONUS.FreeGreen, BONUS.Fox]
 const scoreMap = [10, 14, 16, 20]

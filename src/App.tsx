@@ -1,52 +1,38 @@
 //@TODO save to local storage
 
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
+import { useRecoilValue } from 'recoil'
 import './App.css'
 import { BlueScore } from './components/BlueScore'
+import { BonusBoxButtonRow } from './components/BonusBoxButtonRow'
+import { BonusIcon } from './components/BonusIcon'
+import { Box } from './components/Box'
 import { GreenScore } from './components/GreenScore'
 import { OrangeScore } from './components/OrangeScore'
 import { PurpleScore } from './components/PurpleScore'
-import { BonusBoxButtonRow } from './components/BonusBoxButtonRow'
 import { YellowScore } from './components/YellowScore'
-import { Bonuses, BonusState, calculateBonusesForRow } from './service/bonus'
-import { BONUS } from './service/bonusConstants'
-import { calculateBlue } from './service/score/blue'
-import { add, calculateGreen, calculateOrange, getFoxCount } from './service/score/scores'
-import { calulateTotalScore } from './service/score/totalScore'
-import { BonusIcon } from './components/BonusIcon'
-import { Box } from './components/Box'
-import { useRecoilValue } from 'recoil'
-import { yellow } from './recoil/yellowSelectors'
+import { blue } from './recoil/blueSelectors'
 import { bonusTotals } from './recoil/globalSelectors'
+import { yellow } from './recoil/yellowSelectors'
+import { Bonuses, BonusState } from './service/bonus'
+import { BONUS } from './service/bonusConstants'
+import { getFoxCount } from './service/score/scores'
+import { calulateTotalScore } from './service/score/totalScore'
 
 const turnsBonusMap = [BONUS.ReRoll, BONUS.PlusOne, BONUS.ReRoll, BONUS.FreeBlue, null, null]
 
 function App() {
     const state = {
         yellowScore: useRecoilValue(yellow.score),
+        blueScore: useRecoilValue(blue.score),
         bonus: useRecoilValue<BonusState>(bonusTotals),
     }
 
-    const [blueScore, setBlueScore] = useState(0)
     const [greenScore, setGreenScore] = useState(0)
     const [orangeScore, setOrangeScore] = useState(0)
     const [purpleScore, setPurpleScore] = useState(0)
     const [turnsState, setTurnsState] = useState([false, false, false, false, false, false])
 
-    const bonusState = useRecoilValue<BonusState>(bonusTotals)
-    // const [bonusState, setBonusState] = useState<BonusState>({
-    //     yellow: { fox: false, plusOnes: 0, reRolls: 0 },
-    //     blue: { fox: false, plusOnes: 0, reRolls: 0 },
-    //     green: { fox: false, plusOnes: 0, reRolls: 0 },
-    //     orange: { fox: false, plusOnes: 0, reRolls: 0 },
-    //     purple: { fox: false, plusOnes: 0, reRolls: 0 },
-    //     turns: { fox: false, plusOnes: 0, reRolls: 0 },
-    // })
-
-    const handleBlueScoreUpdate = (quantity: number, bonuses: Bonuses) => {
-        // setBonusState({ ...bonusState, blue: bonuses })
-        // setBlueScore(calculateBlue({ quantity }))
-    }
     const handleGreenScoreUpdate = (quantity: number, bonuses: Bonuses) => {
         // setBonusState({ ...bonusState, green: bonuses })
         // setGreenScore(calculateGreen({ quantity }))
@@ -97,20 +83,20 @@ function App() {
             />
             <div style={{ display: 'inline-block' }}>
                 <YellowScore />
-                <BlueScore onChange={handleBlueScoreUpdate} />
+                <BlueScore />
             </div>
             <GreenScore onChange={handleGreenScoreUpdate} />
-            <OrangeScore onChange={handleOrangeScoreUpdate} />
+            <OrangeScore />
             <PurpleScore onChange={handlePurpleScoreUpdate} />
             <div>{` Yellow Total: ${state.yellowScore}`}</div>
-            <div>{` Blue Total: ${blueScore}`}</div>
+            <div>{` Blue Total: ${state.blueScore}`}</div>
             <div>{` Green Total: ${greenScore}`}</div>
             <div>{` Orange Total: ${orangeScore}`}</div>
             <div>{` Purple Total: ${purpleScore}`}</div>
             <div>{` Foxes:${getFoxCount(state.bonus)}`}</div>
             <div>{` Total:${calulateTotalScore({
                 yellowScore: state.yellowScore,
-                blueScore,
+                blueScore: state.blueScore,
                 greenScore,
                 orangeScore,
                 purpleScore,

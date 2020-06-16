@@ -68,7 +68,7 @@ const DieSelect = ({ value, onChange, bonus }) => {
     )
 }
 
-export const OrangeScore = ({ onChange }: OrangeScoreProps) => {
+export const OrangeScore = () => {
     const [inputState, setInput] = useState(initialScore)
 
     const handleChange = ({ target }: React.ChangeEvent<{ value: number }>, index) => {
@@ -78,10 +78,10 @@ export const OrangeScore = ({ onChange }: OrangeScoreProps) => {
 
         setInput(input)
     }
-    useEffect(() => {
-        onChange(inputState, calculateBonusesForRow(inputState, bonusMap))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [inputState])
+    // useEffect(() => {
+    //     onChange(inputState, calculateBonusesForRow(inputState, bonusMap))
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [inputState])
 
     return (
         <ScoreRowContainer testId='OrangeScore' color={COLOR.orange}>

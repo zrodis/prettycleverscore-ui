@@ -1,6 +1,6 @@
 import { Quantity } from './scores'
 
-export const countBlueSelection = (checkedState) => {
+export const countBlueSelection = (checkedState: boolean[][]): number => {
     return checkedState.reduce((total, currentRow) => {
         let rowTotal = 0
         currentRow.forEach((checked) => {
