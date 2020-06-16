@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { Box, BonusBox } from './Box'
-import { useGridSelection } from '../hooks/useGridSelection'
 import { COLOR } from '../constants/colors'
 import { BonusIcon } from './BonusIcon'
 import { BONUS } from '../service/bonusConstants'
 import { Bonuses } from '../service/bonus'
-
-interface YellowScoreProps {
-    onChange(scores: number[], bonuses: Bonuses): void
-}
+import { yellowCheckedState } from '../recoil/atoms'
+import { yellowBingoState } from '../recoil/yellowSelectors'
+import { BingoState } from '../hooks/useGridSelection'
 
 const bonusMapRight = [BONUS.FreeBlue, BONUS.Orange4, BONUS.FreeGreen, BONUS.Fox]
 const scoreMap = [10, 14, 16, 20]
@@ -20,29 +19,15 @@ const scoreConfig: number[][] = [
     [0, 3, 4, 6],
 ]
 
-export const YellowScore: React.SFC<YellowScoreProps> = ({ onChange }: YellowScoreProps) => {
-    const { checkedState, setChecked, bingoState, setSelection } = useGridSelection([
-        [false, false, false, true],
-        [false, false, true, false],
-        [false, true, false, false],
-        [true, false, false, false],
-    ])
-
-    useEffect(() => {
-        const columnToScore = { 0: 10, 1: 14, 2: 16, 3: 20 }
-
-        onChange(
-            bingoState.columns.map((val) => columnToScore[val]),
-            {
-                fox: bingoState.rows.includes(3),
-                plusOnes: bingoState.diagonal ? 1 : 0,
-            }
-        )
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [bingoState.columns, bingoState.rows])
+export const YellowScore = () => {
+    const [checkedState, setChecked] = useRecoilState<boolean[][]>(yellowCheckedState)
+    const bingoState = useRecoilValue<BingoState>(yellowBingoState)
 
     const handleClick = (rowIndex: number, columnIndex: number) => {
-        setSelection({ rowIndex, columnIndex })
+        //recoil doesn't like the inner arrays to mutate... so they have to be re-created
+        const checked = [...checkedState.map((row) => [...row])]
+        checked[rowIndex][columnIndex] = !checked[rowIndex][columnIndex]
+        setChecked(checked)
     }
 
     return (
