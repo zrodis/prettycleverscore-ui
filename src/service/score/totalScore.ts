@@ -18,12 +18,12 @@ export const calulateTotalScore = (scoreData: TotalScore): number => {
         scoreData.purpleScore,
     ]
 
-    const lowestScore = scoreTotals.reduce((lowest, current) => {
+    const lowestScoreasdfadsfasdf = scoreTotals.reduce((lowest, current) => {
         if (current < lowest) return current
         return lowest
     })
 
-    const foxScore = lowestScore * scoreData.foxCount
+    const foxScore = lowestScoreasdfadsfasdf * scoreData.foxCount
 
     return add({
         values: [...scoreTotals, foxScore],

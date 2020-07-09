@@ -66,17 +66,6 @@ export const BlueScore = () => {
                     )
                 })}
             </div>
-            <div className='scorebottom'>
-                {bonusMapBottom.map((bonus, index) => {
-                    return (
-                        <BonusBox
-                            key={index}
-                            checked={bingoState.columns.includes(index)}
-                            display={<BonusIcon type={bonus} />}
-                        />
-                    )
-                })}
-            </div>
         </div>
     )
 }
